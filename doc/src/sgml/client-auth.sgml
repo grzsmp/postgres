@@ -1617,16 +1617,18 @@ host ... ldap ldapurl="ldap://ldap.example.net/dc=example,dc=net?uid?sub"
     <literal>password</literal> except that it uses PAM (Pluggable
     Authentication Modules) as the authentication mechanism. The
     default PAM service name is <literal>postgresql</literal>.
-    PAM is used only to validate user name/password pairs.
-    Therefore the user must already exist in the database before PAM
-    can be used for authentication.  For more information about
-    PAM, please read the <ulink url="http://www.kernel.org/pub/linux/libs/pam/">
+    PAM is used only to validate user name/password and connected
+    remote hostname/IP address. Therefore the user must already
+    exist in the database before PAM can be used for authentication.
+    For more information about PAM, please read the
+    <ulink url="http://www.kernel.org/pub/linux/libs/pam/">
     <productname>Linux-PAM</> Page</ulink>.
    </para>
 
    <para>
     The following configuration options are supported for PAM:
     <variablelist>
+     
      <varlistentry>
       <term><literal>pamservice</literal></term>
       <listitem>
@@ -1635,6 +1637,20 @@ host ... ldap ldapurl="ldap://ldap.example.net/dc=example,dc=net?uid?sub"
        </para>
       </listitem>
      </varlistentry>
+     
+     <varlistentry>
+      <term><literal>pam_use_hostname</literal></term>
+      <listitem>
+       <para>
+        Parmater used to control the remote hostname/IP address that needs
+        to be sent to PAM authentication module. When not set (which is default),
+        then ip address of connected host will be passed to pam modules through
+        PAM_RHOST item. Otherwise the connected hostname is identified and passed.
+        An attempt to determine hostname may lead to login delays.
+       </para>
+      </listitem>
+     </varlistentry>
+    
     </variablelist>
    </para>
 
